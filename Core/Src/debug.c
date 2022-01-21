@@ -49,12 +49,6 @@ void Debug_Init(void)
 #ifdef KYDEBUG
 void Debug_Print(uint8_t *s)
 {
-    while (*s != '\0') {
-        while (LL_USART_IsActiveFlag_TXE(USART1) == 0)
-            ;
-        LL_USART_TransmitData8(USART1, *s);
-        s++;
-    }
 }
 #else
 void Debug_Print(uint8_t *s)

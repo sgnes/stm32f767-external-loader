@@ -38,8 +38,8 @@ ENTRY(Reset_Handler)
 /* Highest address of the user mode stack */
 _estack = ORIGIN(RAM) + LENGTH(RAM); /* end of "RAM" Ram type memory */
 
-_Min_Heap_Size = 0x200; /* required amount of heap */
-_Min_Stack_Size = 0x400; /* required amount of stack */
+_Min_Heap_Size = 0x200 ; /* required amount of heap */
+_Min_Stack_Size = 0x400 ; /* required amount of stack */
 
 /* Memories definition */
 MEMORY
@@ -63,13 +63,13 @@ SECTIONS
   .text :
   {
     . = ALIGN(4);
-    *(.text)           /* .text sections (code) */
-    *(.text*)          /* .text* sections (code) */
-    *(.glue_7)         /* glue arm to thumb code */
-    *(.glue_7t)        /* glue thumb to arm code */
-    *(.eh_frame)
-    *(.RamFunc)        /* .RamFunc sections */
-    *(.RamFunc*)       /* .RamFunc* sections */
+    KEEP (*(.text))           /* .text sections (code) */
+    KEEP (*(.text*))          /* .text* sections (code) */
+    KEEP (*(.glue_7))         /* glue arm to thumb code */
+    KEEP (*(.glue_7t))        /* glue thumb to arm code */
+    KEEP (*(.eh_frame))
+    KEEP (*(.RamFunc))        /* .RamFunc sections */
+    KEEP (*(.RamFunc*) )      /* .RamFunc* sections */
 
     KEEP (*(.init))
     KEEP (*(.fini))
@@ -82,8 +82,8 @@ SECTIONS
   .rodata :
   {
     . = ALIGN(4);
-    *(.rodata)         /* .rodata sections (constants, strings, etc.) */
-    *(.rodata*)        /* .rodata* sections (constants, strings, etc.) */
+    KEEP (*(.rodata))         /* .rodata sections (constants, strings, etc.) */
+    KEEP (*(.rodata*) )       /* .rodata* sections (constants, strings, etc.) */
     . = ALIGN(4);
   } >RAM
 
@@ -96,7 +96,7 @@ SECTIONS
   .ARM : {
     . = ALIGN(4);
     __exidx_start = .;
-    *(.ARM.exidx*)
+    KEEP (*(.ARM.exidx*))
     __exidx_end = .;
     . = ALIGN(4);
   } >RAM
@@ -138,8 +138,8 @@ SECTIONS
   {
     . = ALIGN(4);
     _sdata = .;        /* create a global symbol at data start */
-    *(.data)           /* .data sections */
-    *(.data*)          /* .data* sections */
+    KEEP (*(.data))           /* .data sections */
+    KEEP (*(.data*))         /* .data* sections */
 
     . = ALIGN(4);
     _edata = .;        /* define a global symbol at data end */
@@ -153,9 +153,9 @@ SECTIONS
     /* This is used by the startup in order to initialize the .bss section */
     _sbss = .;         /* define a global symbol at bss start */
     __bss_start__ = _sbss;
-    *(.bss)
-    *(.bss*)
-    *(COMMON)
+    KEEP (*(.bss))
+    KEEP (*(.bss*))
+    KEEP (*(COMMON))
 
     . = ALIGN(4);
     _ebss = .;         /* define a global symbol at bss end */

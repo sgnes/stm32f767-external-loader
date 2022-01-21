@@ -10,11 +10,22 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include Drivers/STM32F7xx_HAL_Driver/Src/subdir.mk
--include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(strip $(CC_DEPS)),)
+-include $(CC_DEPS)
+endif
+ifneq ($(strip $(C++_DEPS)),)
+-include $(C++_DEPS)
+endif
+ifneq ($(strip $(C_UPPER_DEPS)),)
+-include $(C_UPPER_DEPS)
+endif
+ifneq ($(strip $(CXX_DEPS)),)
+-include $(CXX_DEPS)
+endif
 ifneq ($(strip $(S_DEPS)),)
 -include $(S_DEPS)
 endif
@@ -23,6 +34,9 @@ ifneq ($(strip $(S_UPPER_DEPS)),)
 endif
 ifneq ($(strip $(C_DEPS)),)
 -include $(C_DEPS)
+endif
+ifneq ($(strip $(CPP_DEPS)),)
+-include $(CPP_DEPS)
 endif
 endif
 
@@ -41,7 +55,7 @@ BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ART
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-USER_OBJS.elf \
+STM32F767_W25Q256_loader.elf \
 
 SIZE_OUTPUT += \
 default.size.stdout \
@@ -60,9 +74,9 @@ all: main-build
 main-build: STM32F767_W25Q256_loader.elf secondary-outputs
 
 # Tool invocations
-USER_OBJS.elf: $(OBJS) $(USER_OBJS) D:\STM32F767_W25Q256_loader\STM32F767IGTX_RAM.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "USER_OBJS.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"D:\STM32F767_W25Q256_loader\STM32F767IGTX_RAM.ld" --specs=nosys.specs -Wl,-Map="STM32F767_W25Q256_loader.map" -Wl,--cref -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-	@echo 'Finished building: $@'
+STM32F767_W25Q256_loader.elf: $(OBJS) $(USER_OBJS) D:\STM32F767_W25Q256_loader\STM32F767IGTX_RAM.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "STM32F767_W25Q256_loader.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"D:\STM32F767_W25Q256_loader\STM32F767IGTX_RAM.ld" --specs=nosys.specs -Wl,-Map="STM32F767_W25Q256_loader.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+	@echo 'Finished building target: $@'
 	@echo ' '
 
 default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
@@ -82,7 +96,7 @@ STM32F767_W25Q256_loader.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TO
 
 # Other Targets
 clean:
-	-$(RM) STM32F767_W25Q256_loader.bin STM32F767_W25Q256_loader.elf STM32F767_W25Q256_loader.list USER_OBJS.elf default.size.stdout
+	-$(RM) STM32F767_W25Q256_loader.bin STM32F767_W25Q256_loader.elf STM32F767_W25Q256_loader.list default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
