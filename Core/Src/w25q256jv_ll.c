@@ -488,8 +488,8 @@ HAL_StatusTypeDef W25Q256JV_MemoryMapped(void)
     sCommand.Instruction = READ_DATA_CMD;
     sCommand.DummyCycles = 0;
     sCommand.Address     = 0;
-    sCommand.AddressMode = QSPI_ADDRESS_1_LINE;
-    sCommand.DataMode    = QSPI_DATA_1_LINE;
+    sCommand.AddressMode       = QSPI_ADDRESS_4_LINES;
+    sCommand.DataMode          = QSPI_DATA_4_LINES;
     sCommand.NbData            = 32 * 1024 * 1024;
 
     sMemMappedCfg.TimeOutActivation = QSPI_TIMEOUT_COUNTER_DISABLE;

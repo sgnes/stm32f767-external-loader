@@ -46,20 +46,20 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
+#define KYDEBUG
+    /* USER CODE END EM */
 
-/* USER CODE END EM */
+    /* Exported functions prototypes ---------------------------------------------*/
+    void Error_Handler(void);
 
-/* Exported functions prototypes ---------------------------------------------*/
-void Error_Handler(void);
+    /* USER CODE BEGIN EFP */
 
-/* USER CODE BEGIN EFP */
+    /* USER CODE END EFP */
 
-/* USER CODE END EFP */
+    /* Private defines -----------------------------------------------------------*/
+    /* USER CODE BEGIN Private defines */
 
-/* Private defines -----------------------------------------------------------*/
-/* USER CODE BEGIN Private defines */
-
-/* USER CODE END Private defines */
+    /* USER CODE END Private defines */
 
 #ifdef __cplusplus
 }

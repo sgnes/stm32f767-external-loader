@@ -34,25 +34,11 @@ SOFTWARE.
 
 #ifdef KYDEBUG
 
-extern void MX_USART3_UART_Init(void);
+extern void MX_USART1_UART_Init(void);
 
 void Debug_Init(void)
 {
-    LL_USART_InitTypeDef USARTInit = {0};
-
-    MX_USART3_UART_Init();
-    
-    USARTInit.BaudRate = 115200;
-    USARTInit.DataWidth = 8;
-    USARTInit.HardwareFlowControl = LL_USART_HWCONTROL_NONE;
-    USARTInit.OverSampling = LL_USART_OVERSAMPLING_16;
-    USARTInit.Parity = LL_USART_PARITY_NONE;
-    USARTInit.StopBits = LL_USART_STOPBITS_1;
-    USARTInit.TransferDirection = LL_USART_DIRECTION_TX;
-    
-    LL_USART_Init(USART3, &USARTInit);
-    LL_USART_ConfigAsyncMode(USART3);
-    LL_USART_Enable(USART3);
+    MX_USART1_UART_Init();
 }
 #else
 void Debug_Init(void)
@@ -64,9 +50,9 @@ void Debug_Init(void)
 void Debug_Print(uint8_t *s)
 {
     while (*s != '\0') {
-        while (LL_USART_IsActiveFlag_TXE(USART3) == 0)
+        while (LL_USART_IsActiveFlag_TXE(USART1) == 0)
             ;
-        LL_USART_TransmitData8(USART3, *s);
+        LL_USART_TransmitData8(USART1, *s);
         s++;
     }
 }
@@ -101,8 +87,6 @@ void Debug_sprintf(uint8_t *d, uint8_t *s, int16_t v)
 #ifdef KYDEBUG
 void Debug_DeInit(void)
 {
-    LL_USART_Disable(USART3);
-    LL_APB1_GRP1_DisableClock(LL_APB1_GRP1_PERIPH_USART3);    
 }
 #else
 void Debug_DeInit(void)
