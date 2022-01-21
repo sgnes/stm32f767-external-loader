@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "w25q128jv_ll.h"
+#include "W25Q256jv_ll.h"
 #include "debug.h"
 /* USER CODE END Includes */
 
@@ -101,7 +101,7 @@ int Init(uint8_t MemMappedMode)
     /* Initialize all configured peripherals */
     MX_GPIO_Init();
     MX_QUADSPI_Init();
-    W25Q128JV_Init();
+    W25Q256JV_Init();
 #ifdef KYDEBUG
     gpioInit.Pin = LL_GPIO_PIN_14;
     gpioInit.Mode = LL_GPIO_MODE_OUTPUT;
@@ -114,7 +114,7 @@ int Init(uint8_t MemMappedMode)
 
 /* USER CODE BEGIN 4 */
 #define QSPI_PAGESIZE 0x100
-#define QSPI_FLASHSIZE (16*1024*1024)
+#define QSPI_FLASHSIZE (32*1024*1024)
 #define QSPI_BLOCKSIZE 0x10000
 
 int WriteEnable (void)
@@ -179,8 +179,8 @@ int Write (uint32_t Address, uint32_t Size, uint8_t* buffer)
         {
             QSPI_DataNum = Size;
             if (QSPI_DataNum != 0) {
-                W25Q128JV_Write(Address, buffer, QSPI_DataNum);
-                W25Q128JV_AutoPollingMemReady();
+                W25Q256JV_Write(Address, buffer, QSPI_DataNum);
+                W25Q256JV_AutoPollingMemReady();
             }
         }
         else /*!< Size > QSPI_PAGESIZE */
@@ -188,8 +188,8 @@ int Write (uint32_t Address, uint32_t Size, uint8_t* buffer)
             while (NumOfPage--)
             {
                 QSPI_DataNum = QSPI_PAGESIZE;
-                W25Q128JV_Write(Address, buffer, QSPI_DataNum);
-                W25Q128JV_AutoPollingMemReady();
+                W25Q256JV_Write(Address, buffer, QSPI_DataNum);
+                W25Q256JV_AutoPollingMemReady();
                 Address +=  QSPI_PAGESIZE;
                 buffer += QSPI_PAGESIZE;
                 Debug_sprintf(str, "NumOfPage = ", NumOfPage);
@@ -200,8 +200,8 @@ int Write (uint32_t Address, uint32_t Size, uint8_t* buffer)
 
             QSPI_DataNum = NumOfSingle;
             if (QSPI_DataNum != 0) {
-                W25Q128JV_Write(Address, buffer, QSPI_DataNum);
-                W25Q128JV_AutoPollingMemReady();
+                W25Q256JV_Write(Address, buffer, QSPI_DataNum);
+                W25Q256JV_AutoPollingMemReady();
             }
             Debug_sprintf(str, "NumOfSingle = ", NumOfSingle);
             Debug_Print(str);
@@ -218,24 +218,24 @@ int Write (uint32_t Address, uint32_t Size, uint8_t* buffer)
                 temp = NumOfSingle - count;
                 QSPI_DataNum = count;
                 if (QSPI_DataNum != 0) {
-                    W25Q128JV_Write(Address, buffer, QSPI_DataNum);
-                    W25Q128JV_AutoPollingMemReady();
+                    W25Q256JV_Write(Address, buffer, QSPI_DataNum);
+                    W25Q256JV_AutoPollingMemReady();
                 }
                 Address +=  count;
                 buffer += count;
 
                 QSPI_DataNum = temp;
                 if (QSPI_DataNum != 0) {
-                    W25Q128JV_Write(Address, buffer, QSPI_DataNum);
-                    W25Q128JV_AutoPollingMemReady();
+                    W25Q256JV_Write(Address, buffer, QSPI_DataNum);
+                    W25Q256JV_AutoPollingMemReady();
                 }
             }
             else
             {
                 QSPI_DataNum = Size;
                 if (QSPI_DataNum != 0) {
-                    W25Q128JV_Write(Address, buffer, QSPI_DataNum);
-                    W25Q128JV_AutoPollingMemReady();
+                    W25Q256JV_Write(Address, buffer, QSPI_DataNum);
+                    W25Q256JV_AutoPollingMemReady();
                 }
             }
         }
@@ -248,8 +248,8 @@ int Write (uint32_t Address, uint32_t Size, uint8_t* buffer)
             QSPI_DataNum = count;
 
             if (QSPI_DataNum != 0) {
-                W25Q128JV_Write(Address, buffer, QSPI_DataNum);
-                W25Q128JV_AutoPollingMemReady();
+                W25Q256JV_Write(Address, buffer, QSPI_DataNum);
+                W25Q256JV_AutoPollingMemReady();
             }
             Address +=  count;
             buffer += count;
@@ -259,8 +259,8 @@ int Write (uint32_t Address, uint32_t Size, uint8_t* buffer)
                 QSPI_DataNum = QSPI_PAGESIZE;
 
                 if (QSPI_DataNum != 0) {
-                    W25Q128JV_Write(Address, buffer, QSPI_DataNum);
-                    W25Q128JV_AutoPollingMemReady();
+                    W25Q256JV_Write(Address, buffer, QSPI_DataNum);
+                    W25Q256JV_AutoPollingMemReady();
                 }
                 Address +=  QSPI_PAGESIZE;
                 buffer += QSPI_PAGESIZE;
@@ -271,8 +271,8 @@ int Write (uint32_t Address, uint32_t Size, uint8_t* buffer)
                 QSPI_DataNum = NumOfSingle;
 
                 if (QSPI_DataNum != 0) {
-                    W25Q128JV_Write(Address, buffer, QSPI_DataNum);
-                    W25Q128JV_AutoPollingMemReady();
+                    W25Q256JV_Write(Address, buffer, QSPI_DataNum);
+                    W25Q256JV_AutoPollingMemReady();
                 }
             }
         }
@@ -321,8 +321,8 @@ int SectorErase (uint32_t EraseStartAddress ,uint32_t EraseEndAddress)
     while (EraseEndAddress>=EraseStartAddress)
     {
         BlockAddr = EraseStartAddress & 0x0FFFFFFF;
-        W25Q128JV_EraseBlock( BlockAddr);
-        W25Q128JV_AutoPollingMemReady();
+        W25Q256JV_EraseBlock( BlockAddr);
+        W25Q256JV_AutoPollingMemReady();
         EraseStartAddress += 0x10000;
     }
 #ifdef KYDEBUG
@@ -360,8 +360,8 @@ int MassErase (void)
 
     while (BlockAddr < QSPI_FLASHSIZE)
     {
-        W25Q128JV_EraseBlock( BlockAddr);
-        W25Q128JV_AutoPollingMemReady();
+        W25Q256JV_EraseBlock( BlockAddr);
+        W25Q256JV_AutoPollingMemReady();
         BlockAddr += QSPI_BLOCKSIZE;
     }
 #ifdef KYDEBUG
@@ -394,7 +394,7 @@ int Read (uint32_t Address, uint32_t Size, uint8_t* Buffer)
 #if 1
     int i = 0;
 
-    W25Q128JV_MemoryMapped();
+    W25Q256JV_MemoryMapped();
         
         
     for (i=0; i < Size;i++)
@@ -414,7 +414,7 @@ int Read (uint32_t Address, uint32_t Size, uint8_t* Buffer)
         if (l == 0 && size >= 0x10000) {
             l = 0xffff;
         }
-        W25Q128JV_ReadFast1Line(Address, Buffer, l);
+        W25Q256JV_ReadFast1Line(Address, Buffer, l);
         size -= l;
         Buffer += l;
         Address += l;
@@ -448,7 +448,7 @@ int Verify (uint32_t MemoryAddr, uint32_t RAMBufferAddr, uint32_t Size)
     uint32_t VerifiedData = 0;
     Size*=4;
 
-    W25Q128JV_MemoryMapped();
+    W25Q256JV_MemoryMapped();
 
     while (Size>VerifiedData)
     {

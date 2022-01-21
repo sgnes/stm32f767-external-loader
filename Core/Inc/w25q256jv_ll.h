@@ -29,14 +29,14 @@ SOFTWARE.
  *
  */
 
-#ifndef INC_W25Q128JV_H_
-#define INC_W25Q128JV_H_
+#ifndef INC_W25Q256JV_H_
+#define INC_W25Q256JV_H_
 
 typedef enum {
-	W25Q128JV_INIT,
-	W25Q128JV_OK,
-	W25Q128JV_BUSY
-} W25Q128JV_State_t;
+	W25Q256JV_INIT,
+	W25Q256JV_OK,
+	W25Q256JV_BUSY
+} W25Q256JV_State_t;
 
 /* Reset Operations */
 #define ENABLE_RESET                         0x66 //
@@ -67,14 +67,14 @@ typedef enum {
 
 #define DUMMY_CLOCK_CYCLES_READ_QUAD         8 //
 
-HAL_StatusTypeDef W25Q128JV_AutoPollingMemReady(void);
-HAL_StatusTypeDef W25Q128JV_Init(void);
-HAL_StatusTypeDef W25Q128JV_EraseBlock(uint32_t flash_address);
-HAL_StatusTypeDef W25Q128JV_Write(uint32_t flash_address, uint8_t *s, int32_t l);
-HAL_StatusTypeDef W25Q128JV_ReadQuad(uint32_t flash_address, uint8_t *d, int32_t l);
-HAL_StatusTypeDef W25Q128JV_Read1Line(uint32_t flash_address, uint8_t *d, int32_t l);
-HAL_StatusTypeDef W25Q128JV_ReadFast1Line(uint32_t flash_address, uint8_t *d, int32_t l);
-HAL_StatusTypeDef W25Q128JV_ReadDual(uint32_t flash_address, uint8_t *d, int32_t l);
-HAL_StatusTypeDef W25Q128JV_MemoryMapped(void);
+HAL_StatusTypeDef W25Q256JV_AutoPollingMemReady(void);
+HAL_StatusTypeDef W25Q256JV_Init(void);
+HAL_StatusTypeDef W25Q256JV_EraseBlock(uint32_t flash_address);
+HAL_StatusTypeDef W25Q256JV_Write(uint32_t flash_address, uint8_t *s, int32_t l);
+HAL_StatusTypeDef W25Q256JV_ReadQuad(uint32_t flash_address, uint8_t *d, int32_t l);
+HAL_StatusTypeDef W25Q256JV_Read1Line(uint32_t flash_address, uint8_t *d, int32_t l);
+HAL_StatusTypeDef W25Q256JV_ReadFast1Line(uint32_t flash_address, uint8_t *d, int32_t l);
+HAL_StatusTypeDef W25Q256JV_ReadDual(uint32_t flash_address, uint8_t *d, int32_t l);
+HAL_StatusTypeDef W25Q256JV_MemoryMapped(void);
 
-#endif /* INC_W25Q128JV_H_ */
+#endif /* INC_W25Q256JV_H_ */

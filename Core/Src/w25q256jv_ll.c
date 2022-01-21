@@ -29,7 +29,7 @@ SOFTWARE.
  *
  */
 #include "main.h" // For hardware
-#include "w25q128jv_ll.h"
+#include "W25Q256jv_ll.h"
 
 extern QSPI_HandleTypeDef hqspi; // from main.c
 
@@ -79,7 +79,7 @@ static HAL_StatusTypeDef QSPI_WriteEnable(QSPI_HandleTypeDef *hqspi)
 }
 
 // Blocked function
-HAL_StatusTypeDef W25Q128JV_AutoPollingMemReady(void)
+HAL_StatusTypeDef W25Q256JV_AutoPollingMemReady(void)
 {
     QSPI_CommandTypeDef     sCommand = {0};
     QSPI_AutoPollingTypeDef sConfig = {0};
@@ -113,7 +113,7 @@ HAL_StatusTypeDef W25Q128JV_AutoPollingMemReady(void)
 extern __IO uint32_t dummy;
 
 // Blocked function
-HAL_StatusTypeDef W25Q128JV_Init(void)
+HAL_StatusTypeDef W25Q256JV_Init(void)
 {
     QSPI_CommandTypeDef     sCommand = {0};
     //QSPI_AutoPollingTypeDef sConfig = {0};
@@ -243,13 +243,13 @@ HAL_StatusTypeDef W25Q128JV_Init(void)
 
 // Blocked function
 // flash_address is boundary 0x10000
-HAL_StatusTypeDef W25Q128JV_EraseBlock(uint32_t flash_address)
+HAL_StatusTypeDef W25Q256JV_EraseBlock(uint32_t flash_address)
 {
     QSPI_CommandTypeDef     sCommand = {0};
     HAL_StatusTypeDef ret;
 
     sCommand.InstructionMode   = QSPI_INSTRUCTION_1_LINE;
-    sCommand.AddressSize       = QSPI_ADDRESS_24_BITS;
+    sCommand.AddressSize       = QSPI_ADDRESS_32_BITS;
     sCommand.AlternateByteMode = QSPI_ALTERNATE_BYTES_NONE;
     sCommand.DdrMode           = QSPI_DDR_MODE_DISABLE;
     sCommand.DdrHoldHalfCycle  = QSPI_DDR_HHC_ANALOG_DELAY;
@@ -277,7 +277,7 @@ HAL_StatusTypeDef W25Q128JV_EraseBlock(uint32_t flash_address)
 // Blocked function
 // flash_address is boundary 256
 // max l is 256
-HAL_StatusTypeDef W25Q128JV_Write(uint32_t flash_address, uint8_t *s, int32_t l)
+HAL_StatusTypeDef W25Q256JV_Write(uint32_t flash_address, uint8_t *s, int32_t l)
 {
     QSPI_CommandTypeDef     sCommand = {0};
     HAL_StatusTypeDef ret;
@@ -290,7 +290,7 @@ HAL_StatusTypeDef W25Q128JV_Write(uint32_t flash_address, uint8_t *s, int32_t l)
     }
 
     sCommand.InstructionMode   = QSPI_INSTRUCTION_1_LINE;
-    sCommand.AddressSize       = QSPI_ADDRESS_24_BITS;
+    sCommand.AddressSize       = QSPI_ADDRESS_32_BITS;
     sCommand.AlternateByteMode = QSPI_ALTERNATE_BYTES_NONE;
     sCommand.DdrMode           = QSPI_DDR_MODE_DISABLE;
     sCommand.DdrHoldHalfCycle  = QSPI_DDR_HHC_ANALOG_DELAY;
@@ -322,7 +322,7 @@ HAL_StatusTypeDef W25Q128JV_Write(uint32_t flash_address, uint8_t *s, int32_t l)
 // Blocked function
 // flash_address is boundary 16
 // max l is 16
-HAL_StatusTypeDef W25Q128JV_ReadQuad(uint32_t flash_address, uint8_t *d, int32_t l)
+HAL_StatusTypeDef W25Q256JV_ReadQuad(uint32_t flash_address, uint8_t *d, int32_t l)
 {
     QSPI_CommandTypeDef     sCommand = {0};
     HAL_StatusTypeDef ret;
@@ -336,7 +336,7 @@ HAL_StatusTypeDef W25Q128JV_ReadQuad(uint32_t flash_address, uint8_t *d, int32_t
     }
 #endif
     sCommand.InstructionMode   = QSPI_INSTRUCTION_1_LINE;
-    sCommand.AddressSize       = QSPI_ADDRESS_24_BITS;
+    sCommand.AddressSize       = QSPI_ADDRESS_32_BITS;
     sCommand.AlternateByteMode = QSPI_ALTERNATE_BYTES_NONE;
     sCommand.DdrMode           = QSPI_DDR_MODE_DISABLE;
     sCommand.DdrHoldHalfCycle  = QSPI_DDR_HHC_ANALOG_DELAY;
@@ -360,7 +360,7 @@ HAL_StatusTypeDef W25Q128JV_ReadQuad(uint32_t flash_address, uint8_t *d, int32_t
 }
 
 // Blocked function
-HAL_StatusTypeDef W25Q128JV_Read1Line(uint32_t flash_address, uint8_t *d, int32_t l)
+HAL_StatusTypeDef W25Q256JV_Read1Line(uint32_t flash_address, uint8_t *d, int32_t l)
 {
     QSPI_CommandTypeDef     sCommand = {0};
     HAL_StatusTypeDef ret;
@@ -375,7 +375,7 @@ HAL_StatusTypeDef W25Q128JV_Read1Line(uint32_t flash_address, uint8_t *d, int32_
 #endif
 
     sCommand.InstructionMode   = QSPI_INSTRUCTION_1_LINE;
-    sCommand.AddressSize       = QSPI_ADDRESS_24_BITS;
+    sCommand.AddressSize       = QSPI_ADDRESS_32_BITS;
     sCommand.AlternateByteMode = QSPI_ALTERNATE_BYTES_NONE;
     sCommand.DdrMode           = QSPI_DDR_MODE_DISABLE;
     sCommand.DdrHoldHalfCycle  = QSPI_DDR_HHC_ANALOG_DELAY;
@@ -399,7 +399,7 @@ HAL_StatusTypeDef W25Q128JV_Read1Line(uint32_t flash_address, uint8_t *d, int32_
 }
 
 // Blocked function
-HAL_StatusTypeDef W25Q128JV_ReadFast1Line(uint32_t flash_address, uint8_t *d, int32_t l)
+HAL_StatusTypeDef W25Q256JV_ReadFast1Line(uint32_t flash_address, uint8_t *d, int32_t l)
 {
     QSPI_CommandTypeDef     sCommand = {0};
     HAL_StatusTypeDef ret;
@@ -409,7 +409,7 @@ HAL_StatusTypeDef W25Q128JV_ReadFast1Line(uint32_t flash_address, uint8_t *d, in
     }
 
     sCommand.InstructionMode   = QSPI_INSTRUCTION_1_LINE;
-    sCommand.AddressSize       = QSPI_ADDRESS_24_BITS;
+    sCommand.AddressSize       = QSPI_ADDRESS_32_BITS;
     sCommand.AlternateByteMode = QSPI_ALTERNATE_BYTES_NONE;
     sCommand.DdrMode           = QSPI_DDR_MODE_DISABLE;
     sCommand.DdrHoldHalfCycle  = QSPI_DDR_HHC_ANALOG_DELAY;
@@ -435,7 +435,7 @@ HAL_StatusTypeDef W25Q128JV_ReadFast1Line(uint32_t flash_address, uint8_t *d, in
 // Blocked function
 // flash_address is boundary 16
 // max l is 16
-HAL_StatusTypeDef W25Q128JV_ReadDual(uint32_t flash_address, uint8_t *d, int32_t l)
+HAL_StatusTypeDef W25Q256JV_ReadDual(uint32_t flash_address, uint8_t *d, int32_t l)
 {
     QSPI_CommandTypeDef     sCommand = {0};
     HAL_StatusTypeDef ret;
@@ -450,7 +450,7 @@ HAL_StatusTypeDef W25Q128JV_ReadDual(uint32_t flash_address, uint8_t *d, int32_t
 #endif
 
     sCommand.InstructionMode   = QSPI_INSTRUCTION_1_LINE;
-    sCommand.AddressSize       = QSPI_ADDRESS_24_BITS;
+    sCommand.AddressSize       = QSPI_ADDRESS_32_BITS;
     sCommand.AlternateByteMode = QSPI_ALTERNATE_BYTES_NONE;
     sCommand.DdrMode           = QSPI_DDR_MODE_DISABLE;
     sCommand.DdrHoldHalfCycle  = QSPI_DDR_HHC_ANALOG_DELAY;
@@ -473,14 +473,14 @@ HAL_StatusTypeDef W25Q128JV_ReadDual(uint32_t flash_address, uint8_t *d, int32_t
     return HAL_OK;
 }
 
-HAL_StatusTypeDef W25Q128JV_MemoryMapped(void)
+HAL_StatusTypeDef W25Q256JV_MemoryMapped(void)
 {
     QSPI_CommandTypeDef     sCommand = {0};
     QSPI_MemoryMappedTypeDef sMemMappedCfg = {0};
     HAL_StatusTypeDef ret;
 
     sCommand.InstructionMode   = QSPI_INSTRUCTION_1_LINE;
-    sCommand.AddressSize       = QSPI_ADDRESS_24_BITS;
+    sCommand.AddressSize       = QSPI_ADDRESS_32_BITS;
     sCommand.AlternateByteMode = QSPI_ALTERNATE_BYTES_NONE;
     sCommand.DdrMode           = QSPI_DDR_MODE_DISABLE;
     sCommand.DdrHoldHalfCycle  = QSPI_DDR_HHC_ANALOG_DELAY;
@@ -490,7 +490,7 @@ HAL_StatusTypeDef W25Q128JV_MemoryMapped(void)
     sCommand.Address     = 0;
     sCommand.AddressMode = QSPI_ADDRESS_1_LINE;
     sCommand.DataMode    = QSPI_DATA_1_LINE;
-    sCommand.NbData      = 16*1024*1024;
+    sCommand.NbData            = 32 * 1024 * 1024;
 
     sMemMappedCfg.TimeOutActivation = QSPI_TIMEOUT_COUNTER_DISABLE;
 
