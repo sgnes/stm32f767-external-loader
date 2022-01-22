@@ -75,7 +75,7 @@ main-build: STM32F767_W25Q256_loader.elf secondary-outputs
 
 # Tool invocations
 STM32F767_W25Q256_loader.elf: $(OBJS) $(USER_OBJS) D:\STM32F767_W25Q256_loader\STM32F767IGTX_RAM.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "STM32F767_W25Q256_loader.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"D:\STM32F767_W25Q256_loader\STM32F767IGTX_RAM.ld" --specs=nosys.specs -Wl,-Map="STM32F767_W25Q256_loader.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+	arm-none-eabi-g++ -o "STM32F767_W25Q256_loader.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"D:\STM32F767_W25Q256_loader\STM32F767IGTX_RAM.ld" --specs=nosys.specs -Wl,-Map="STM32F767_W25Q256_loader.map" -Wl,--cref -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
